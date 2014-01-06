@@ -24,6 +24,19 @@ def downloadshow(wantedShow):
 
 	for torr in d.entries:
 		rssTitle = torr.title
+
+		fileSize = torr.description.split(" ")[3]
+		MBorGB = torr.description.split(" ")[4]
+		getit = True
+
+		if MBorGB == "GB":
+			if (float(fileSize) < 1.8):
+				getit = True
+			else:
+				getit = False
+		elif MBorGB == "MB":
+			getit = True
+
 		matchObj = re.search( wantedShow, rssTitle, re.IGNORECASE) 
 
 		if matchObj:
@@ -32,7 +45,7 @@ def downloadshow(wantedShow):
 				#dont download
 
 				continue
-			else:
+			elif getit:
 				#download
 
 				theLink = torr.link
